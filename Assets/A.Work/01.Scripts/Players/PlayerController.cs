@@ -1,5 +1,5 @@
 ﻿using System;
-using TankCode.Combat;
+using Scripts.Combat;
 using TankCode.Core.Network.Shared;
 using TankCode.Networking;
 using TMPro;

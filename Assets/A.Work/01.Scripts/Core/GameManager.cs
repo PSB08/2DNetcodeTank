@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TankCode.Combat;
+using Scripts.Combat;
 using TankCode.Players;
 using TankCode.UI;
 using Unity.Netcode;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace TankCode.Combat
+namespace Scripts.Combat
 {
     public class TankSpawnPoint : MonoBehaviour
     {

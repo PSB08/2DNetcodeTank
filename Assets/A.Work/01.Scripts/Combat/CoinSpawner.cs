@@ -6,7 +6,7 @@ using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace TankCode.Combat
+namespace Scripts.Combat
 {
     public class CoinSpawner : NetworkBehaviour
     {

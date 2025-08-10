@@ -3,7 +3,7 @@ using TankCode.Players;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Combat
+namespace Scripts.Combat
 {
     public class HealingZone : NetworkBehaviour
     {

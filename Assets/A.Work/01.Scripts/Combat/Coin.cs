@@ -1,7 +1,7 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Combat
+namespace Scripts.Combat
 {
     public abstract class Coin : NetworkBehaviour
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace TankCode.Combat
+namespace Scripts.Combat
 {
     public class RespawnCoin : Coin
     {

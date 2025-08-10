@@ -9,7 +9,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Combat
+namespace Scripts.Combat
 {
     public class KillFeedManager : NetworkBehaviour
     {
