@@ -31,7 +31,7 @@ namespace TankCode.Projectiles
         
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            DestroyObject();    
+            DestroyObject();
         }
 
         protected virtual void DestroyObject()
