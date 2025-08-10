@@ -1,0 +1,17 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/PSB_Lib/ObjectPool/Editor/PoolManagerEditor.uss?fileID=7433441132597879392&amp;guid=8d9772df5c381004f8aabb47e2ac2603&amp;type=3#PoolManagerEditor" />
+    <engine:VisualElement name="Container" style="flex-grow: 1;">
+        <engine:VisualElement name="TopBar" class="top_bar">
+            <engine:Label text="PoolManager Editor" name="TitleLabel" style="font-size: 25px; -unity-font-definition: url(&quot;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&amp;guid=e3265ab4bf004d28a9537516768c1c75&amp;type=3#LiberationSans&quot;); -unity-text-align: middle-left; border-top-width: 0; -unity-font-style: bold;" />
+            <engine:Button text="Create" name="CreateBtn" class="create_btn" />
+        </engine:VisualElement>
+        <PSB_Lib.ObjectPool.Editor.GGMSplitView fixed-pane-initial-dimension="250">
+            <engine:VisualElement name="LeftPanel" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                <engine:ScrollView name="ItemView" class="scroll_view" />
+            </engine:VisualElement>
+            <engine:VisualElement name="RightPanel" style="flex-grow: 1; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                <engine:VisualElement name="InspectorView" class="inspector_view" />
+            </engine:VisualElement>
+        </PSB_Lib.ObjectPool.Editor.GGMSplitView>
+    </engine:VisualElement>
+</engine:UXML>

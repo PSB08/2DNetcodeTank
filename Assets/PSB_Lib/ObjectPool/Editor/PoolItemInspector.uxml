@@ -1,0 +1,7 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:VisualElement name="Container" style="flex-grow: 1;">
+        <engine:TextField label="Pooling Name" placeholder-text="풀링 이름을 입력하세요." name="PoolNameField" is-delayed="true" binding-path="poolingName" />
+        <editor:ObjectField label="Prefab" name="PrefabField" binding-path="prefab" type="UnityEngine.GameObject, UnityEngine.CoreModule" allow-scene-objects="false" />
+        <engine:IntegerField label="Init Count" name="InitCountField" binding-path="initCount" />
+    </engine:VisualElement>
+</engine:UXML>
