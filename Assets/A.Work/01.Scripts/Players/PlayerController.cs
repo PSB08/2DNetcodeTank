@@ -1,7 +1,7 @@
 ﻿using System;
 using Scripts.Combat;
 using Scripts.Core.Network.Shared;
-using TankCode.Networking;
+using Scripts.Networking;
 using TMPro;
 using Unity.Cinemachine;
 using Unity.Collections;

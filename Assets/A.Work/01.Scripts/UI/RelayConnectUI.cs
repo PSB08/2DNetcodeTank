@@ -1,5 +1,5 @@
 ﻿using System;
-using TankCode.Networking;
+using Scripts.Networking;
 using TankCode.System;
 using TMPro;
 using UnityEngine;

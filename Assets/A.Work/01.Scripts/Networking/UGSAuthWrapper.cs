@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Unity.Services.Authentication;
 
-namespace TankCode.Networking
+namespace Scripts.Networking
 {
     public enum UGSAuthState
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using DG.Tweening;
-using TankCode.Networking;
+using Scripts.Networking;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

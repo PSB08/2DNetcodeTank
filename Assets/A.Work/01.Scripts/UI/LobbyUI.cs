@@ -1,5 +1,5 @@
 ﻿using System;
-using TankCode.Networking;
+using Scripts.Networking;
 using TMPro;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;

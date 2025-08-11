@@ -2,7 +2,7 @@
 using System.Net.Sockets;
 using UnityEngine;
 
-namespace TankCode.Networking
+namespace Scripts.Networking
 {
     public class HostSingleton : MonoBehaviour
     {

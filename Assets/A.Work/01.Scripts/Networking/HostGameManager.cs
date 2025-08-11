@@ -15,7 +15,7 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TankCode.Networking
+namespace Scripts.Networking
 {
     public class HostGameManager : IDisposable
     {

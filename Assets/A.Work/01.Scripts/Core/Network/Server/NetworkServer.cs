@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Scripts.Core.Network.Shared;
-using TankCode.Networking;
+using Scripts.Networking;
 using Unity.Netcode;
 using UnityEngine;
 

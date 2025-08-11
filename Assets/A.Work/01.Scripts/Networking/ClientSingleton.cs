@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Networking
+namespace Scripts.Networking
 {
     public class ClientSingleton : MonoBehaviour
     {

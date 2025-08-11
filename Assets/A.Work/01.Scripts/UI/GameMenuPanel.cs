@@ -1,5 +1,5 @@
 ﻿using DG.Tweening;
-using TankCode.Networking;
+using Scripts.Networking;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;

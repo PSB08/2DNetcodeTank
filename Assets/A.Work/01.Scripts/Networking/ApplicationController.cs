@@ -2,7 +2,7 @@
 using TankCode.System;
 using UnityEngine;
 
-namespace TankCode.Networking
+namespace Scripts.Networking
 {
     public class ApplicationController : MonoBehaviour
     {

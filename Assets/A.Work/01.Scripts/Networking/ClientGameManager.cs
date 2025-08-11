@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using NetworkClient = Scripts.Core.Network.Client.NetworkClient;
 
-namespace TankCode.Networking
+namespace Scripts.Networking
 {
     public class ClientGameManager : IDisposable
     {
