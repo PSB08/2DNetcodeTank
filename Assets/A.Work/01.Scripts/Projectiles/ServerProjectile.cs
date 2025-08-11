@@ -1,7 +1,7 @@
 ﻿using Scripts.Combat;
 using UnityEngine;
 
-namespace TankCode.Projectiles
+namespace Scripts.Projectiles
 {
     public class ServerProjectile : ProjectileBase
     {

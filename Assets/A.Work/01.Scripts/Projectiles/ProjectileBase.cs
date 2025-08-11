@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace TankCode.Projectiles
+namespace Scripts.Projectiles
 {
     public class ProjectileBase : MonoBehaviour
     {

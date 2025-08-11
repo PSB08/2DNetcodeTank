@@ -1,4 +1,4 @@
-﻿namespace TankCode.System
+﻿namespace Scripts.System
 {
     public class SceneNames
     {

@@ -1,9 +1,8 @@
-﻿using System;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TankCode.Test
+namespace Scripts.Test
 {
     public class TestConnectionUI : MonoBehaviour
     {

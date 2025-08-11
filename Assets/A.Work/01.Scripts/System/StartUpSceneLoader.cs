@@ -2,9 +2,8 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
-using NotImplementedException = System.NotImplementedException;
 
-namespace TankCode.System
+namespace Scripts.System
 {
     //Static 생성자를 실행해줌 - 실행 타이밍 : 컴파일 때 한 번, 플레이 모드 진입 시 한 번 (Awake 이전에)
     [InitializeOnLoad]

@@ -1,4 +1,4 @@
-﻿using TankCode.Projectiles;
+﻿using Scripts.Projectiles;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;

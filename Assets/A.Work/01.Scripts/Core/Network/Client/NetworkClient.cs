@@ -1,7 +1,6 @@
 ﻿using System;
-using TankCode.System;
+using Scripts.System;
 using Unity.Netcode;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Scripts.Core.Network.Client

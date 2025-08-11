@@ -1,6 +1,5 @@
-﻿using System;
-using Scripts.Networking;
-using TankCode.System;
+﻿using Scripts.Networking;
+using Scripts.System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
