@@ -16,8 +16,7 @@ namespace TankCode.Projectiles
             
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                if (other.attachedRigidbody != null &&
-                    other.attachedRigidbody.TryGetComponent(out TankHealth health))
+                if (other.attachedRigidbody.TryGetComponent(out TankHealth health))
                 {
                     health.TakeDamage(damage, ownerClientId);
                 }

@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7666373770213320985}
   - component: {fileID: 9121457926552771646}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TankBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2397099043581425861}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 4543401498800525850}
   - component: {fileID: 8076359757697069507}
   - component: {fileID: 5487522017146821494}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MuzzlePlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,7 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7839561248773696727}
   - component: {fileID: 454903559426528545}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +486,6 @@ GameObject:
   - component: {fileID: 5675937146773279732}
   - component: {fileID: 2373150504483782140}
   - component: {fileID: 7705269009575030616}
-  - component: {fileID: 3268939770430838381}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -712,9 +711,6 @@ MonoBehaviour:
   currentHealth:
     m_InternalValue: 0
   maxHealth: 100
-  OnDead:
-    m_PersistentCalls:
-      m_Calls: []
   OnHealthChange:
     m_PersistentCalls:
       m_Calls:
@@ -814,52 +810,6 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
---- !u!61 &3268939770430838381
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5139938443057681107}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.8, y: 2.1}
-  m_EdgeRadius: 0
 --- !u!1 &5688343801704479318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +999,7 @@ GameObject:
   - component: {fileID: 7070348918051865003}
   - component: {fileID: 7168598577889151802}
   - component: {fileID: 1765745653173724421}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TankThreads
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1285,6 +1235,7 @@ GameObject:
   - component: {fileID: 5458688380562193070}
   - component: {fileID: 8078589987299030219}
   - component: {fileID: 7397385148836775646}
+  - component: {fileID: 227723720441011379}
   m_Layer: 0
   m_Name: ShootingFeedback
   m_TagString: Untagged
@@ -1322,6 +1273,7 @@ MonoBehaviour:
   feedbackToPlay:
   - {fileID: 8078589987299030219}
   - {fileID: 7397385148836775646}
+  - {fileID: 227723720441011379}
 --- !u!114 &8078589987299030219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,6 +1302,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTrm: {fileID: 7839561248773696727}
   recoilPower: 0.2
+--- !u!114 &227723720441011379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7298661160267442185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ffcbe5a37ed42ee8c41e2c69f99f258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootSound:
+    ID: 1073741837
+    _sourceAsset: {fileID: 11400000, guid: fcf93c211569ada43b08112df850d0da, type: 2}
+    <DebugObject>k__BackingField: {fileID: 7298661160267442185}
+  turnOnTime: 0.5
 --- !u!1 &7549315352444064895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,7 +1329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1175874291774103727}
   - component: {fileID: 2825884828337182372}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TurretPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
