@@ -726,6 +726,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  explosionParticle: {fileID: 0}
   <IsDead>k__BackingField: 0
 --- !u!114 &5675937146773279732
 MonoBehaviour:
@@ -743,6 +744,7 @@ MonoBehaviour:
   bountyCoinPrefab: {fileID: 4827928016654254162, guid: 07a12ab9babcfd04192094f04144a00f, type: 3}
   health: {fileID: 8694237248750518890}
   bountyRatio: 0.7
+  minBountyValue: 0
   totalCoins:
     m_InternalValue: 0
 --- !u!114 &2373150504483782140
@@ -1412,6 +1414,7 @@ GameObject:
   - component: {fileID: 1854127496668070363}
   - component: {fileID: 8506008043211341920}
   - component: {fileID: 6969506768792849711}
+  - component: {fileID: 8535633926542263761}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -1508,6 +1511,30 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!114 &8535633926542263761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619267048176431198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 0.4
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &8348812373766484372
 GameObject:
   m_ObjectHideFlags: 0

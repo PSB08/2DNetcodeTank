@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Scripts.Combat
 {
     public class BountyCoin : Coin
     {
+        [SerializeField] private CinemachineImpulseSource impulseSource;
+        
         public override int Collect()
         {
             if (!IsServer)
@@ -37,7 +40,7 @@ namespace Scripts.Combat
             SetVisible(true);
             transform.DOMove(destination, 0.6f).SetEase(Ease.OutBounce).OnComplete(() =>
             {
-
+                impulseSource.GenerateImpulse(0.3f);
             });
         }
 

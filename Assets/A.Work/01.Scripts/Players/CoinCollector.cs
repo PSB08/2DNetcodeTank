@@ -10,6 +10,7 @@ namespace Scripts.Players
         [SerializeField] private BountyCoin bountyCoinPrefab;
         [SerializeField] private TankHealth health;
         [SerializeField] private float bountyRatio;
+        [SerializeField] private int minBountyValue;
         
         public NetworkVariable<int> totalCoins = new NetworkVariable<int>();
 
@@ -40,6 +41,9 @@ namespace Scripts.Players
         {
             int bountyValue = Mathf.FloorToInt(totalCoins.Value * bountyRatio);
 
+            if (bountyValue < minBountyValue)
+                return;
+            
             float coinScale = Mathf.Clamp(bountyValue / 100.0f, 1f, 3f);
             
             BountyCoin coinInstance = Instantiate(bountyCoinPrefab, transform.position, Quaternion.identity);
