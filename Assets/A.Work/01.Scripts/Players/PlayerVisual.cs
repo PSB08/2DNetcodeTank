@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TankCode.Players
+namespace Scripts.Players
 {
     public class PlayerVisual : MonoBehaviour
     {

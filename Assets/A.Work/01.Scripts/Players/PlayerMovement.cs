@@ -1,7 +1,7 @@
 ﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Players
+namespace Scripts.Players
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : NetworkBehaviour

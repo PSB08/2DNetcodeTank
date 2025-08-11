@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TankCode.Players
+namespace Scripts.Players
 {
     [UnityEngine.CreateAssetMenu(fileName = "PlayerInput", menuName = "SO/PlayerInput", order = 0)]
     public class PlayerInputSo : ScriptableObject, Controls.IPlayerActions

@@ -1,5 +1,5 @@
 ﻿using Scripts.Core;
-using TankCode.Players;
+using Scripts.Players;
 using Unity.Netcode;
 using UnityEngine;
 

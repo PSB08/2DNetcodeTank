@@ -1,8 +1,7 @@
-﻿using System;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Players
+namespace Scripts.Players
 {
     public class PlayerAim : NetworkBehaviour
     {

@@ -8,7 +8,7 @@ using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Players
+namespace Scripts.Players
 {
     public class PlayerController : NetworkBehaviour
     {

@@ -1,10 +1,9 @@
-﻿using System;
-using TankCode.Projectiles;
+﻿using TankCode.Projectiles;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace TankCode.Players
+namespace Scripts.Players
 {
     public class ProjectileLauncher : NetworkBehaviour
     {

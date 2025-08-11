@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TankCode.Players;
+using Scripts.Players;
 using Unity.Netcode;
 using UnityEngine;
 
