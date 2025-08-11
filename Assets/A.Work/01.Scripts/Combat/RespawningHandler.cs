@@ -7,6 +7,8 @@ namespace Scripts.Combat
 {
     public class RespawningHandler : NetworkBehaviour
     {
+        [SerializeField] private float keepCoinRatio;
+        
         public override void OnNetworkSpawn()
         {
             if (!IsServer) return;
@@ -28,9 +30,11 @@ namespace Scripts.Combat
                 ulong clientId = player.OwnerClientId;
                 Color color = player.tankColor.Value;
 
+                int remainCoin = Mathf.FloorToInt(player.CoinCompo.totalCoins.Value * keepCoinRatio);
+                
                 Destroy(player.gameObject);
                 
-                GameManager.Instance.SpawnTank(clientId, color, 1f);
+                GameManager.Instance.SpawnTank(clientId, color, remainCoin, 1f);
             };
         }
 

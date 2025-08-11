@@ -40,9 +40,10 @@ namespace Scripts.Players
             CoinCompo = GetComponent<CoinCollector>();
         }
 
-        public void SetTankData(Color color)
+        public void SetTankData(Color color, int coin)
         {
             tankColor.Value = color;
+            CoinCompo.totalCoins.Value = coin;
         }
 
         public override void OnNetworkSpawn()

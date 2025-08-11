@@ -3456,6 +3456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  keepCoinRatio: 0.2
 --- !u!1 &1966382276
 GameObject:
   m_ObjectHideFlags: 0

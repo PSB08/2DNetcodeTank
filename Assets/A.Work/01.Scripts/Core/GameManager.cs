@@ -48,7 +48,7 @@ namespace Scripts.Core
                 ulong clientID = ui.OwnerClientId;
                 Color color = ui.selectedColor;
                 
-                SpawnTank(clientID, color);
+                SpawnTank(clientID, color, 0);
             }
             
             if (KillFeedManager.Instance != null)
@@ -58,7 +58,7 @@ namespace Scripts.Core
             _isGameStart = true;
         }
         
-        public async void SpawnTank(ulong clientID, Color selectedColor, float delay = 0)
+        public async void SpawnTank(ulong clientID, Color selectedColor,int coin, float delay = 0)
         {
             if(delay > 0 )
             {
@@ -69,7 +69,7 @@ namespace Scripts.Core
 
             PlayerController controller = Instantiate(_playerPrefab, position, Quaternion.identity);
             controller.NetworkObject.SpawnAsPlayerObject(clientID);
-            controller.SetTankData(selectedColor);
+            controller.SetTankData(selectedColor, coin);
         }
 
 
