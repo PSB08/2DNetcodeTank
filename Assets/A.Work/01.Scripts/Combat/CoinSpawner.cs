@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TankCode.Core;
+using Scripts.Core;
 using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;

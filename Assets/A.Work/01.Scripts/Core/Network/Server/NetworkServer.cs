@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using TankCode.Core.Network.Shared;
+using Scripts.Core.Network.Shared;
 using TankCode.Networking;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Core.Network.Server
+namespace Scripts.Core.Network.Server
 {
     public class NetworkServer : IDisposable
     {

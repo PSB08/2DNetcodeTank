@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace TankCode.Core.Network.Shared
+namespace Scripts.Core.Network.Shared
 {
     [Serializable]
     public class UserData

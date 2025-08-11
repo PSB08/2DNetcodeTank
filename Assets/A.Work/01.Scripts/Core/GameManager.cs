@@ -7,7 +7,7 @@ using TankCode.UI;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace TankCode.Core
+namespace Scripts.Core
 {
     public class GameManager : NetworkBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Scripts.Combat;
-using TankCode.Core.Network.Shared;
+using Scripts.Core.Network.Shared;
 using TankCode.Networking;
 using TMPro;
 using Unity.Cinemachine;

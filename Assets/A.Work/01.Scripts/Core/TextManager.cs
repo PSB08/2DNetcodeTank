@@ -1,7 +1,7 @@
 ﻿using TankCode.UI;
 using UnityEngine;
 
-namespace TankCode.Core
+namespace Scripts.Core
 {
     public class TextManager : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
-using TankCode.Core.Network.Shared;
+using Scripts.Core.Network.Shared;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
@@ -10,7 +10,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using NetworkClient = TankCode.Core.Network.Client.NetworkClient;
+using NetworkClient = Scripts.Core.Network.Client.NetworkClient;
 
 namespace TankCode.Networking
 {

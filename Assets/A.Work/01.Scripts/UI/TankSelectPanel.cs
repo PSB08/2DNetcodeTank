@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TankCode.Core;
+using Scripts.Core;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
