@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class HealthBar : MonoBehaviour
     {

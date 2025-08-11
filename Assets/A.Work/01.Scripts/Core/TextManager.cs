@@ -1,4 +1,4 @@
-﻿using TankCode.UI;
+﻿using Scripts.UI;
 using UnityEngine;
 
 namespace Scripts.Core

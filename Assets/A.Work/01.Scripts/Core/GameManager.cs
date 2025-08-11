@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Scripts.Combat;
 using Scripts.Players;
-using TankCode.UI;
+using Scripts.UI;
 using Unity.Netcode;
 using UnityEngine;
 

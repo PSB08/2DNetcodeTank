@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class IpConnectUI : MonoBehaviour
     {

@@ -1,12 +1,11 @@
-﻿using System;
-using Scripts.Networking;
+﻿using Scripts.Networking;
 using TMPro;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class LobbyUI : MonoBehaviour
     {

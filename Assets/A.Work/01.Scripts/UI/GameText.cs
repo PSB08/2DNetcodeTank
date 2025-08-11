@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class GameText : MonoBehaviour
     {

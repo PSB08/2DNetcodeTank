@@ -3,7 +3,7 @@ using Scripts.Networking;
 using TMPro;
 using UnityEngine;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class JoinCodeDisplay : MonoBehaviour
     {

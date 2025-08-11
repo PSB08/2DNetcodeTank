@@ -4,7 +4,7 @@ using TMPro;
 using Unity.Collections;
 using UnityEngine;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class KillFeedUI : MonoBehaviour
     {

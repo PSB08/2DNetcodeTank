@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TankCode.UI
+namespace Scripts.UI
 {
     public class LoaderUI : MonoBehaviour
     {
