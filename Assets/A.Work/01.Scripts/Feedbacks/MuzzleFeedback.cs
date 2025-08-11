@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TankCode.Feedbacks
+namespace Scripts.Feedbacks
 {
     public class MuzzleFeedback : Feedback
     {

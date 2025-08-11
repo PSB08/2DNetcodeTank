@@ -1,8 +1,7 @@
-﻿using System;
-using Ami.BroAudio;
+﻿using Ami.BroAudio;
 using UnityEngine;
 
-namespace TankCode.Feedbacks
+namespace Scripts.Feedbacks
 {
     public class ShootSoundFeedback : Feedback
     {

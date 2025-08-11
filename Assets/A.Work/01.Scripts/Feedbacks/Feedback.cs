@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace TankCode.Feedbacks
+namespace Scripts.Feedbacks
 {
     public abstract class Feedback : MonoBehaviour
     {

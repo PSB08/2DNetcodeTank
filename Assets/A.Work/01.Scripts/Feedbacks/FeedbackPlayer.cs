@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace TankCode.Feedbacks
+namespace Scripts.Feedbacks
 {
     public class FeedbackPlayer : MonoBehaviour
     {

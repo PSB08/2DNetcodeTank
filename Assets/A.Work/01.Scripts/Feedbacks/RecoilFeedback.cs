@@ -1,7 +1,7 @@
 ﻿using DG.Tweening;
 using UnityEngine;
 
-namespace TankCode.Feedbacks
+namespace Scripts.Feedbacks
 {
     public class RecoilFeedback : Feedback
     {
