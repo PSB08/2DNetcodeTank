@@ -12,9 +12,9 @@ namespace Scripts.Combat
 {
     public class KillFeedManager : NetworkBehaviour
     {
-        // DTO: RPC로 보낼 직렬화 타입
+        //RPC로 보낼 직렬화 타입
         [Serializable]
-        public struct KillEntryDto : INetworkSerializable
+        public struct KillEntry : INetworkSerializable
         {
             public FixedString64Bytes Name;
             public int Kills;
@@ -136,7 +136,7 @@ namespace Scripts.Combat
                 .OrderBy(p => p.OwnerClientId)
                 .ToArray();
 
-            var payload = new KillEntryDto[players.Length];
+            var payload = new KillEntry[players.Length];
             
             for (int i = 0; i < players.Length; i++)
             {
@@ -145,7 +145,7 @@ namespace Scripts.Combat
                 
                 totalKills.TryGetValue(id, out var k);
                 
-                payload[i] = new KillEntryDto
+                payload[i] = new KillEntry
                 {
                     Name = name,
                     Kills = k
@@ -156,7 +156,7 @@ namespace Scripts.Combat
         }
         
         [ClientRpc]
-        private void SendKillFeedClientRpc(KillEntryDto[] entries)
+        private void SendKillFeedClientRpc(KillEntry[] entries)
         {
             if (KillFeedUI.Instance == null)
             {
@@ -164,11 +164,11 @@ namespace Scripts.Combat
                 return;
             }
 
-            var uiList = new List<KillEntryDto>(entries.Length);
+            var uiList = new List<KillEntry>(entries.Length);
             
             foreach (var e in entries)
             {
-                uiList.Add(new KillEntryDto
+                uiList.Add(new KillEntry
                 {
                     Name = e.Name.ToString(), Kills = e.Kills
                 });

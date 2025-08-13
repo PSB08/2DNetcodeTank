@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using DG.Tweening;
 using PSB_Lib.Dependencies;
 using Scripts.Core;
+using Scripts.Networking;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Scripts.UI
@@ -36,7 +39,7 @@ namespace Scripts.UI
         {
             Time.timeScale = slowMotionScale;
 
-            winnerPanel.GetComponentInChildren<TextMeshProUGUI>().text = winner;
+            winnerPanel.GetComponentInChildren<TextMeshProUGUI>().text = $"{winner} 승리!";
             winnerPanel.interactable = true;
             winnerPanel.blocksRaycasts = true;
 
@@ -53,7 +56,24 @@ namespace Scripts.UI
                 {
                     DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1f, returnSpeed)
                         .SetEase(Ease.InOutQuad);
+                    StartCoroutine(ExitGameCoroutine());
                 });
+        }
+
+        private IEnumerator ExitGameCoroutine()
+        {
+            yield return new WaitForSecondsRealtime(3f);
+            OnHandleExitGame();
+        }
+        
+        private void OnHandleExitGame()
+        {
+            if (NetworkManager.Singleton.IsHost)
+            {
+                HostSingleton.Instance.GameManager.Shutdown();
+            }
+
+            ClientSingleton.Instance.GameManager.Disconnect();
         }
         
         
