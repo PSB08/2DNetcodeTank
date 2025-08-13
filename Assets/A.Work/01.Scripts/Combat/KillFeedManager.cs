@@ -1,22 +1,37 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Scripts.Players;
+using Scripts.UI;
 using Unity.Collections;
 using Unity.Netcode;
-
+using UnityEngine;
 
 namespace Scripts.Combat
 {
     public class KillFeedManager : NetworkBehaviour
     {
+        // DTO: RPC로 보낼 직렬화 타입
+        [Serializable]
+        public struct KillEntryDto : INetworkSerializable
+        {
+            public FixedString64Bytes Name;
+            public int Kills;
+
+            public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+            {
+                serializer.SerializeValue(ref Name);
+                serializer.SerializeValue(ref Kills);
+            }
+        }
+        
         public static KillFeedManager Instance { get; private set; }
+        public event Action<ulong> OnPlayerKill;
 
-        private Dictionary<ulong, Dictionary<ulong, int>> killLog = new();  // killLog[킬한 사람 ID][죽인 대상 ID] = 횟수
-        private Dictionary<ulong, int> totalKills = new();  // totalKills[킬한 사람 ID] = 총 킬 수
-
-        public NetworkVariable<FixedString512Bytes> syncedKillFeedText = new(writePerm: NetworkVariableWritePermission.Server);
+        // 서버 전용 상태
+        private readonly Dictionary<ulong, Dictionary<ulong, int>> killLog = new(); // [killer][victim] = count
+        private readonly Dictionary<ulong, int> totalKills = new(); // [killer] = total
 
         private void Awake()
         {
@@ -24,8 +39,7 @@ namespace Scripts.Combat
             {
                 Destroy(gameObject);
                 return;
-            } 
-            
+            }
             Instance = this;
         }
 
@@ -44,99 +58,140 @@ namespace Scripts.Combat
                 NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
             }
         }
-        
+
         private void OnClientDisconnected(ulong clientId)
         {
-            killLog.Remove(clientId);  // 나간 클라이언트가 킬한 기록 제거
+            if (!IsServer) return;
+
+            killLog.Remove(clientId);
             
-            foreach (var killer in killLog.Keys)
+            foreach (var killer in killLog.Keys.ToList())
             {
-                killLog[killer].Remove(clientId);  // 다른 플레이어의 기록에서 나간 클라이언트를 죽인 기록 제거
+                killLog[killer].Remove(clientId);
             }
             
-            totalKills.Remove(clientId);  // 총 킬 수 기록에서도 제거
-            StartCoroutine(UpdateKillFeedNextFrame());  // 다음 프레임에서 UI 갱신
+            totalKills.Remove(clientId);
+
+            // 다음 프레임에 브로드캐스트
+            StartCoroutine(BroadcastNextFrame());
         }
-        
-        private IEnumerator UpdateKillFeedNextFrame()
+
+        private IEnumerator BroadcastNextFrame()
         {
             yield return null;
-            UpdateKillTextClientRpc();
+            BroadcastKillFeed(); // 서버에서 계산해서 클라에 전송
         }
         
-        public void LogKill(ulong killerId, ulong victimId)
+        //외부에서 호출 할 kill 메서드
+        public void RequestLogKill(ulong killerId, ulong victimId)
         {
-            // killLog에 killerId가 가진 킬 로그가 없으면 새로 Dictionary 생성
-            if (!killLog.ContainsKey(killerId))
-                killLog[killerId] = new Dictionary<ulong, int>();
-
-            // killerId가 victimId를 죽인 횟수가 없으면 0으로 초기화 
-            if (!killLog[killerId].ContainsKey(victimId))
-                killLog[killerId][victimId] = 0;
-
-            // 해당 victimId의 킬 수++
-            killLog[killerId][victimId]++;
-
-            // killerId의 총 킬 수 기록이 없으면 0으로 초기화
-            if (!totalKills.ContainsKey(killerId))
-                totalKills[killerId] = 0;
-
-            // 총 킬수 초기화
-            totalKills[killerId]++;
-
-            UpdateKillTextClientRpc();  // 모든 클라이언트 UI 갱신
+            if (IsServer)
+            {
+                LogKillServer(killerId, victimId);
+            }
+            else
+            {
+                ReportKillServerRpc(killerId, victimId);
+            }
         }
 
-        [ClientRpc]  // 클라이언트에게 킬 UI 수정 콜
-        public void UpdateKillTextClientRpc()
+        //RequireOwnership을 통해 어떤 클라이언트든 킬 로그를 보낼 수 있음
+        [ServerRpc(RequireOwnership = false)]
+        private void ReportKillServerRpc(ulong killerId, ulong victimId)
         {
-            StringBuilder header = new StringBuilder();  // 플레이어 이름
-            StringBuilder kills = new StringBuilder();  // 각 플레이어의 킬 수
-            
-            var allPlayers = FindObjectsOfType<PlayerController>()
-                .OrderBy(p => p.OwnerClientId)
-                .ToArray();
+            LogKillServer(killerId, victimId);
+        }
 
-            foreach (var player in allPlayers)
+        // 서버 전용 킬 기록
+        private void LogKillServer(ulong killerId, ulong victimId)
+        {
+            if (!IsServer) return;
+
+            if (!killLog.TryGetValue(killerId, out var perVictim))
             {
-                string name = player.playerName.Value.ToString();
-                ulong id = player.OwnerClientId;
-
-                header.Append(name).Append(" vs ");
-
-                int killCount = totalKills.ContainsKey(id) ? totalKills[id] : 0;
-                kills.Append($"{killCount}".PadRight(name.Length + 4));
-                // 이름 길이에 맞춰 정렬
+                perVictim = new Dictionary<ulong, int>();
+                killLog[killerId] = perVictim;
             }
 
-            if (header.Length >= 4)
-                header.Length -= 4; // 마지막 " vs " 제거
+            perVictim.TryGetValue(victimId, out var v);
+            perVictim[victimId] = v + 1;
 
-            StringBuilder final = new StringBuilder();
-            final.AppendLine(header.ToString());
-            final.AppendLine(kills.ToString());
-            // 최종 출력 문자열 구성
-            
-            syncedKillFeedText.Value = final.ToString();  // 네트워크 동기화 변수에 저장 > UI에서 표시 가능
+            totalKills.TryGetValue(killerId, out var t);
+            totalKills[killerId] = t + 1;
+
+            BroadcastKillFeed(); // 서버에서 계산해서 전파
+            OnPlayerKill?.Invoke(killerId);
         }
 
-        //초기화 메서드
-        public void InitializeKillFeed()
+        public int GetTotalKills(ulong playerId)
         {
-            totalKills.Clear();
-            
+            return totalKills.TryGetValue(playerId, out var k) ? k : 0;
+        }
+        
+        private void BroadcastKillFeed()
+        {
+            if (!IsServer) return;
+
             var players = FindObjectsOfType<PlayerController>()
                 .OrderBy(p => p.OwnerClientId)
                 .ToArray();
 
-            //여기서 모든 플레이어의 킬 수를 초기화
-            foreach (var player in players)
+            var payload = new KillEntryDto[players.Length];
+            
+            for (int i = 0; i < players.Length; i++)
             {
-                ulong id = player.OwnerClientId;
-                totalKills[id] = 0;
+                var name = players[i].playerName.Value.ToString();
+                var id = players[i].OwnerClientId;
+                
+                totalKills.TryGetValue(id, out var k);
+                
+                payload[i] = new KillEntryDto
+                {
+                    Name = name,
+                    Kills = k
+                };
             }
 
-            UpdateKillTextClientRpc();
+            SendKillFeedClientRpc(payload);
+        }
+        
+        [ClientRpc]
+        private void SendKillFeedClientRpc(KillEntryDto[] entries)
+        {
+            if (KillFeedUI.Instance == null)
+            {
+                Debug.LogWarning("[KillFeed] KillFeedUI not ready on client.");
+                return;
+            }
+
+            var uiList = new List<KillEntryDto>(entries.Length);
+            
+            foreach (var e in entries)
+            {
+                uiList.Add(new KillEntryDto
+                {
+                    Name = e.Name.ToString(), Kills = e.Kills
+                });
+            }
+
+            KillFeedUI.Instance.RefreshUI(uiList);
+        }
+
+        // 초기화(서버 전용)
+        public void InitializeKillFeed()
+        {
+            if (!IsServer) return;
+
+            totalKills.Clear();
+
+            var players = FindObjectsOfType<PlayerController>()
+                .OrderBy(p => p.OwnerClientId)
+                .ToArray();
+
+            foreach (var p in players)
+                totalKills[p.OwnerClientId] = 0;
+
+            BroadcastKillFeed();
         }
         
         

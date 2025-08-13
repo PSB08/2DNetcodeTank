@@ -39,6 +39,8 @@ namespace Scripts.Players
 
         private void HandleDieEvent()
         {
+            if (!IsServer) return;
+            
             int bountyValue = Mathf.FloorToInt(totalCoins.Value * bountyRatio);
 
             if (bountyValue < minBountyValue)

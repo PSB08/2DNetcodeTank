@@ -70,7 +70,7 @@ namespace Scripts.Combat
                 IsDead = true;
                 OnDieEvent?.Invoke();
                 
-                KillFeedManager.Instance.LogKill(attackerId, OwnerClientId);
+                KillFeedManager.Instance.RequestLogKill(attackerId, OwnerClientId);
             }
         }
         

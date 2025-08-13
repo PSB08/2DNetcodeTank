@@ -1,47 +1,35 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Scripts.Combat;
 using TMPro;
-using Unity.Collections;
 using UnityEngine;
 
 namespace Scripts.UI
 {
     public class KillFeedUI : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI killFeedText;
+        public static KillFeedUI Instance { get; private set; }
+
+        [SerializeField] private Transform killListParent; // Vertical Layout Group 붙여서 자동 정렬
+        [SerializeField] private GameObject killRowPrefab; // TMP 하나만 있는 프리팹
 
         private void Awake()
         {
-            if (KillFeedManager.Instance != null)
-            {
-                killFeedText.text = KillFeedManager.Instance.syncedKillFeedText.Value.ToString();
-            }
-            else
-            {
-                killFeedText.text = "킬 피드 초기화 중...";
-            }
+            Instance = this;
         }
 
-        private void OnEnable()
+        public void RefreshUI(List<KillFeedManager.KillEntryDto> entries)
         {
-            if (KillFeedManager.Instance != null)
-            {
-                KillFeedManager.Instance.syncedKillFeedText.OnValueChanged += OnKillFeedTextChanged;
-                killFeedText.text = KillFeedManager.Instance.syncedKillFeedText.Value.ToString();
-            }
-        }
+            foreach (Transform child in killListParent)
+                Destroy(child.gameObject);
 
-        private void OnDisable()
-        {
-            if (KillFeedManager.Instance != null)
+            foreach (var entry in entries)
             {
-                KillFeedManager.Instance.syncedKillFeedText.OnValueChanged -= OnKillFeedTextChanged;
-            }
-        }
+                var row = Instantiate(killRowPrefab, killListParent);
+                var tmp = row.GetComponent<TextMeshProUGUI>();
 
-        private void OnKillFeedTextChanged(FixedString512Bytes oldValue, FixedString512Bytes newValue)
-        {
-            killFeedText.text = newValue.ToString();
+                // 이름과 킬 수를 줄바꿈으로 표시
+                tmp.text = $"{entry.Name}\n{entry.Kills}";
+            }
         }
         
         
