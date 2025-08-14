@@ -13,8 +13,14 @@ namespace Scripts.UI
         private CanvasGroup _canvasGroup;
         
         public static TopAndSelfUI Instance { get; private set; }
+        
+        [Header("TopPlayer")]
+        [SerializeField] private TextMeshProUGUI topRankText;
         [SerializeField] private TextMeshProUGUI topNameText;
         [SerializeField] private TextMeshProUGUI topKillText;
+
+        [Header("Self")] 
+        [SerializeField] private TextMeshProUGUI selfRankText;
         [SerializeField] private TextMeshProUGUI selfNameText;
         [SerializeField] private TextMeshProUGUI selfKillText;
 
@@ -52,13 +58,17 @@ namespace Scripts.UI
             _canvasGroup.interactable = value;
         }
         
-        public void SetData(string topName, int topKills, string selfName, int selfKills)
+        public void SetData(string topName, int topKills, int topRank, string selfName, int selfKills, int selfRank)
         {
+            topRankText.color = Color.yellow;
             topNameText.color = Color.yellow;
             topKillText.color = Color.yellow;
             
+            topRankText.text = $"{topRank.ToString()}등";
             topNameText.text = topName;
             topKillText.text = topKills.ToString();
+            
+            selfRankText.text = $"{selfRank.ToString()}등";
             selfNameText.text = selfName;
             selfKillText.text = selfKills.ToString();
         }

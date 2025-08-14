@@ -18,11 +18,13 @@ namespace Scripts.Combat
         {
             public FixedString64Bytes Name;
             public int Kills;
+            public int Rank;
 
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
             {
                 serializer.SerializeValue(ref Name);
                 serializer.SerializeValue(ref Kills);
+                serializer.SerializeValue(ref Rank);
             }
         }
         
@@ -177,15 +179,19 @@ namespace Scripts.Combat
             KillEntry topData = new KillEntry
             {
                 Name = topPlayer.playerName.Value.ToString(),
-                Kills = GetTotalKills(topPlayer.OwnerClientId)
+                Kills = GetTotalKills(topPlayer.OwnerClientId),
+                Rank = 1
             };
 
             foreach (PlayerController p in players)
             {
+                int selfRank = players.FindIndex(x => x.OwnerClientId == p.OwnerClientId) + 1;
+                
                 KillEntry selfData = new KillEntry
                 {
                     Name = p.playerName.Value.ToString(),
-                    Kills = GetTotalKills(p.OwnerClientId)
+                    Kills = GetTotalKills(p.OwnerClientId),
+                    Rank = selfRank
                 };
 
                 // 자기 자신에게만 전송
@@ -239,8 +245,8 @@ namespace Scripts.Combat
             }
 
             TopAndSelfUI.Instance.SetData(
-                top.Name.ToString(), top.Kills,
-                selfData.Name.ToString(), selfData.Kills
+                top.Name.ToString(), top.Kills, top.Rank,
+                selfData.Name.ToString(), selfData.Kills, selfData.Rank
             );
         }
         
