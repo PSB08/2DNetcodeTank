@@ -17,7 +17,7 @@ namespace Scripts.UI
 
         private IEnumerator UpdateJoinCodeRoutine()
         {
-            var wait = new WaitForSecondsRealtime(refreshInterval);
+            WaitForSecondsRealtime wait = new WaitForSecondsRealtime(refreshInterval);
 
             while (true)
             {

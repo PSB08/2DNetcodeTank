@@ -26,7 +26,6 @@ namespace Scripts.Core
             yield return null;
             
             KillFeedManager.Instance.OnPlayerKill += HandlePlayerKill;
-            Debug.Log("[GameResultManager] 서버에서 이벤트 구독 완료");
         }
 
         public override void OnDestroy()

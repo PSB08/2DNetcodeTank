@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Scripts.Combat;
 using Scripts.Core.Network.Shared;
 using Scripts.Networking;
@@ -44,6 +45,7 @@ namespace Scripts.Players
         {
             tankColor.Value = color;
             CoinCompo.totalCoins.Value = coin;
+            NameChangeClientRpc(color);
         }
 
         public override void OnNetworkSpawn()
@@ -53,6 +55,7 @@ namespace Scripts.Players
             if(IsOwner)
             {
                 followCam.Priority = ownerCamPriority;
+                StartCoroutine(NotifyKillFeedWhenReady());
             }
             
             if (IsServer)
@@ -65,6 +68,16 @@ namespace Scripts.Players
             HandlePlayerNameChange(string.Empty, playerName.Value); //처음한번
         }
 
+        private IEnumerator NotifyKillFeedWhenReady()
+        {
+            // playerName이 준비될 때까지 대기
+            while (string.IsNullOrEmpty(playerName.Value.ToString()))
+                yield return null;
+
+            KillFeedManager.Instance?.BroadcastTopAndSelf();
+        }
+        
+        
         private void HandleColorChanged(Color previousColor, Color newValue)
         {
             VisualCompo.SetTankColor(newValue);
@@ -84,6 +97,12 @@ namespace Scripts.Players
         private void HandlePlayerNameChange(FixedString32Bytes previousValue, FixedString32Bytes newValue)
         {
             nameText.text = newValue.ToString();
+        }
+
+        [ClientRpc]
+        private void NameChangeClientRpc(Color color)
+        {
+            nameText.color = color;
         }
         
     }

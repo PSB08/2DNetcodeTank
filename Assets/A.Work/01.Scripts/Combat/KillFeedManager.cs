@@ -42,6 +42,7 @@ namespace Scripts.Combat
             }
             Instance = this;
         }
+        
 
         public override void OnNetworkSpawn()
         {
@@ -59,13 +60,14 @@ namespace Scripts.Combat
             }
         }
 
+        
         private void OnClientDisconnected(ulong clientId)
         {
             if (!IsServer) return;
 
             killLog.Remove(clientId);
             
-            foreach (var killer in killLog.Keys.ToList())
+            foreach (ulong killer in killLog.Keys.ToList())
             {
                 killLog[killer].Remove(clientId);
             }
@@ -76,11 +78,13 @@ namespace Scripts.Combat
             StartCoroutine(BroadcastNextFrame());
         }
 
+        
         private IEnumerator BroadcastNextFrame()
         {
             yield return null;
             BroadcastKillFeed(); // 서버에서 계산해서 클라에 전송
         }
+        
         
         //외부에서 호출 할 kill 메서드
         public void RequestLogKill(ulong killerId, ulong victimId)
@@ -95,6 +99,7 @@ namespace Scripts.Combat
             }
         }
 
+        
         //RequireOwnership을 통해 어떤 클라이언트든 킬 로그를 보낼 수 있음
         [ServerRpc(RequireOwnership = false)]
         private void ReportKillServerRpc(ulong killerId, ulong victimId)
@@ -102,6 +107,7 @@ namespace Scripts.Combat
             LogKillServer(killerId, victimId);
         }
 
+        
         // 서버 전용 킬 기록
         private void LogKillServer(ulong killerId, ulong victimId)
         {
@@ -120,28 +126,26 @@ namespace Scripts.Combat
             totalKills[killerId] = t + 1;
 
             BroadcastKillFeed(); // 서버에서 계산해서 전파
+            BroadcastTopAndSelf();
             OnPlayerKill?.Invoke(killerId);
         }
-
-        public int GetTotalKills(ulong playerId)
-        {
-            return totalKills.TryGetValue(playerId, out var k) ? k : 0;
-        }
         
+        
+        //전체 플레이어의 이름과 킬 수를 보내는 메서드
         private void BroadcastKillFeed()
         {
             if (!IsServer) return;
 
-            var players = FindObjectsOfType<PlayerController>()
+            PlayerController[] players = FindObjectsOfType<PlayerController>()
                 .OrderBy(p => p.OwnerClientId)
                 .ToArray();
 
-            var payload = new KillEntry[players.Length];
+            KillEntry[] payload = new KillEntry[players.Length];
             
             for (int i = 0; i < players.Length; i++)
             {
-                var name = players[i].playerName.Value.ToString();
-                var id = players[i].OwnerClientId;
+                string name = players[i].playerName.Value.ToString();
+                ulong id = players[i].OwnerClientId;
                 
                 totalKills.TryGetValue(id, out var k);
                 
@@ -155,6 +159,52 @@ namespace Scripts.Combat
             SendKillFeedClientRpc(payload);
         }
         
+        
+        //1등 플레이어와 자기 자신의 정보를 보내는 메서드
+        public void BroadcastTopAndSelf()
+        {
+            if (!IsServer) return;
+
+            List<PlayerController> players = FindObjectsOfType<PlayerController>()
+                .OrderByDescending(p => GetTotalKills(p.OwnerClientId))
+                .ThenBy(p => p.OwnerClientId) // 동점일 경우 ID 낮은 순
+                .ToList();
+
+            if (players.Count == 0) return;
+
+            PlayerController topPlayer = players[0];
+            
+            KillEntry topData = new KillEntry
+            {
+                Name = topPlayer.playerName.Value.ToString(),
+                Kills = GetTotalKills(topPlayer.OwnerClientId)
+            };
+
+            foreach (PlayerController p in players)
+            {
+                KillEntry selfData = new KillEntry
+                {
+                    Name = p.playerName.Value.ToString(),
+                    Kills = GetTotalKills(p.OwnerClientId)
+                };
+
+                // 자기 자신에게만 전송
+                SendTopAndSelfClientRpc(topData, selfData, new ClientRpcParams
+                {
+                    Send = new ClientRpcSendParams
+                    {
+                        TargetClientIds = new[]
+                        {
+                            p.OwnerClientId
+                        }
+                    }
+                });
+                
+            }
+        }
+        
+        
+        //메서드를 실질적으로 보내는 ClientRpc
         [ClientRpc]
         private void SendKillFeedClientRpc(KillEntry[] entries)
         {
@@ -164,9 +214,9 @@ namespace Scripts.Combat
                 return;
             }
 
-            var uiList = new List<KillEntry>(entries.Length);
+            List<KillEntry> uiList = new List<KillEntry>(entries.Length);
             
-            foreach (var e in entries)
+            foreach (KillEntry e in entries)
             {
                 uiList.Add(new KillEntry
                 {
@@ -176,7 +226,32 @@ namespace Scripts.Combat
 
             KillFeedUI.Instance.RefreshUI(uiList);
         }
+        
+        
+        //메서드를 실질적으로 보내는 ClientRpc
+        [ClientRpc]
+        private void SendTopAndSelfClientRpc(KillEntry top, KillEntry selfData, ClientRpcParams rpcParams = default)
+        {
+            if (TopAndSelfUI.Instance == null)
+            {
+                Debug.LogWarning("[KillFeed] TopAndSelfUI not ready on client.");
+                return;
+            }
 
+            TopAndSelfUI.Instance.SetData(
+                top.Name.ToString(), top.Kills,
+                selfData.Name.ToString(), selfData.Kills
+            );
+        }
+        
+        
+        //총 킬 수 보내는 메서드
+        public int GetTotalKills(ulong playerId)
+        {
+            return totalKills.TryGetValue(playerId, out var k) ? k : 0;
+        }
+
+        
         // 초기화(서버 전용)
         public void InitializeKillFeed()
         {
@@ -184,15 +259,18 @@ namespace Scripts.Combat
 
             totalKills.Clear();
 
-            var players = FindObjectsOfType<PlayerController>()
+            PlayerController[] players = FindObjectsOfType<PlayerController>()
                 .OrderBy(p => p.OwnerClientId)
                 .ToArray();
 
-            foreach (var p in players)
+            foreach (PlayerController p in players)
+            {
                 totalKills[p.OwnerClientId] = 0;
+            }
 
             BroadcastKillFeed();
         }
+        
         
         
     }
