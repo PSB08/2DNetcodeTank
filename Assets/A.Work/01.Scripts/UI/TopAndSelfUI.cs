@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Linq;
-using DG.Tweening;
-using Scripts.Players;
+﻿using DG.Tweening;
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Scripts.UI

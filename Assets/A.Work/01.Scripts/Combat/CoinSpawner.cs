@@ -22,9 +22,10 @@ namespace Scripts.Combat
         private bool _isSpawning = false;
         private float _spawnTime = 0;
         private int _spawnCountTime = 10;
+        private int lastSpawnPointIdx = -1;
 
         public List<Transform> spawnPoints;
-        private float coinRadius;
+        private float _coinRadius;
 
         private Stack<RespawnCoin> _coinPool = new Stack<RespawnCoin>();
         private List<RespawnCoin> _activeCoinList = new List<RespawnCoin>();
@@ -32,7 +33,7 @@ namespace Scripts.Combat
         //이 메서드는 서버만 실행
         private RespawnCoin SpawnCoin()
         {
-            RespawnCoin coinInstance = Instantiate(coinPrefab);
+            RespawnCoin coinInstance = Instantiate(coinPrefab, transform);
             coinInstance.SetCoinValue(coinValue);
             coinInstance.GetComponent<NetworkObject>().Spawn();
             //서버가 클라에게 스폰 되었음을 알림 (네트워크 오브젝트는 이렇게 스폰 해줘야 함)
@@ -43,7 +44,7 @@ namespace Scripts.Combat
 
         private void HandleCoinCollected(RespawnCoin targetCoin)
         {
-            _activeCoinList.Add(targetCoin);
+            _activeCoinList.Remove(targetCoin);
             targetCoin.SetVisible(false);
             _coinPool.Push(targetCoin);
         }
@@ -52,7 +53,7 @@ namespace Scripts.Combat
         {
             if (IsServer == false) return;
             
-            coinRadius = coinPrefab.GetComponent<CircleCollider2D>().radius;  //코인의 반지름 알아내기
+            _coinRadius = coinPrefab.GetComponent<CircleCollider2D>().radius;  //코인의 반지름 알아내기
 
             for (int i = 0; i < maxCoinCount; i++)
             {
@@ -89,13 +90,22 @@ namespace Scripts.Combat
         private IEnumerator SpawnCoroutine()
         {
             _isSpawning = true;
-            int pointIdx = Random.Range(0, spawnPoints.Count);
+
+            // 이전 지점과 다른 지점 선택
+            int pointIdx;
+            do
+            {
+                pointIdx = Random.Range(0, spawnPoints.Count);
+            } while (pointIdx == lastSpawnPointIdx && spawnPoints.Count > 1);
+
+            lastSpawnPointIdx = pointIdx; // 이번 지점 저장
+
             int coinCount = Random.Range(maxCoinCount / 2, maxCoinCount + 1);
 
             for (int i = _spawnCountTime; i > 0; i--)
             {
                 CountDownClientRpc(i, pointIdx, coinCount);
-                yield return new WaitForSeconds(1);  //서버가 1초마다 한 번씩 클라에게 RPC를 날린다
+                yield return new WaitForSeconds(1);
             }
 
             Vector2 center = spawnPoints[pointIdx].position;
@@ -105,11 +115,12 @@ namespace Scripts.Combat
                 RespawnCoin coin = _coinPool.Pop();
                 coin.transform.position = pos;
                 coin.ResetCoin();
-                
+
                 _activeCoinList.Add(coin);
-                yield return new WaitForSeconds(4f);  //4초마다 1개씩 생성
+                yield return new WaitForSeconds(4f);
             }
-            _isSpawning = false;  //작업 완료 후 플래그 끄기
+
+            _isSpawning = false;
         }
 
         [ClientRpc]

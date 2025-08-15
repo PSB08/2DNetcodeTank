@@ -743,7 +743,7 @@ MonoBehaviour:
   bountyCoinPrefab: {fileID: 4827928016654254162, guid: 07a12ab9babcfd04192094f04144a00f, type: 3}
   health: {fileID: 8694237248750518890}
   bountyRatio: 0.7
-  minBountyValue: 0
+  minBountyValue: 50
   totalCoins:
     m_InternalValue: 0
 --- !u!114 &2373150504483782140
